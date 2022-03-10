@@ -1,6 +1,6 @@
 CREATE TABLE punch_list.pendency (
     id bigserial not null,
-    contract text not null,
+    id_contract bigint not null,
     area_identification text not null,
     tag text null,
     description text not null,
@@ -9,6 +9,7 @@ CREATE TABLE punch_list.pendency (
     status text not null,
     registered_by bigint not null,
     created_at datetime not null default CURRENT_TIMESTAMP,
+    modified_in datetime not null default CURRENT_TIMESTAMP,
     registered_to bigint not null,
     expected_in datetime,
     finished_by bigint null,
@@ -22,5 +23,6 @@ CREATE TABLE punch_list.pendency (
     constraint fk_pendency_registered_to foreign key (registered_to) references punch_list.responsible_person(id),
     constraint fk_pendency_finished_by foreign key (finished_by) references punch_list.responsible_person(id),
     constraint fk_pendency_disapproved_by foreign key (disapproved_by) references punch_list.responsible_person(id),
-    constraint fk_pendency_canceled_by foreign key (canceled_by) references punch_list.responsible_person(id)
+    constraint fk_pendency_canceled_by foreign key (canceled_by) references punch_list.responsible_person(id),
+    constraint fk_pendency_id_contract foreign key (id_contract) references punch_list.contract(id)
 );

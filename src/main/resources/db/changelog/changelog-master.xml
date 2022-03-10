@@ -9,11 +9,13 @@
     <include file="db/changelog/sql-core/0001-create-schema-base.sql"/>
 
     <!-- creation tables -->
+    <include file="db/changelog/sql-core/0001-create-table-contract.sql"/>
     <include file="db/changelog/sql-core/0001-create-table-responsible-person.sql"/>
     <include file="db/changelog/sql-core/0001-create-table-pendency.sql"/>
 
     <!-- test data -->
-    <include file="db/changelog/sql-insert-test/0001-insert-responsible-person.sql"/>
-    <include file="db/changelog/sql-insert-test/0001-insert-pendency.sql"/>
+    <include file="db/changelog/sql-data-test/0001-insert-contract.sql"/>
+    <include file="db/changelog/sql-data-test/0001-insert-responsible-person.sql"/>
+    <include file="db/changelog/sql-data-test/0001-insert-pendency.sql"/>
 
 </databaseChangeLog>
