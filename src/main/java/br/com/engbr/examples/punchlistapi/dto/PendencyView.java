@@ -31,6 +31,8 @@ public interface PendencyView {
 
     LocalDateTime getCanceledAt();
 
+    ContractView getContract();
+
     ResponsiblePersonView getRegisteredBy();
 
     ResponsiblePersonView getRegisteredTo();
