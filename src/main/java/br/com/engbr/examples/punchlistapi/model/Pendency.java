@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -23,8 +25,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Pendency extends AbstractEntity {
 
-    @Column(name = "id_contract", nullable = false)
-    private Long idContract;
+    @OneToOne
+    @JoinColumn(name = "id_contract")
+    private Contract contract;
 
     @Column(name = "area_identification", nullable = false)
     private String areaIdentification;
@@ -45,8 +48,9 @@ public class Pendency extends AbstractEntity {
     @Column(name = "status", nullable = false)
     private StatusEnum status;
 
-    @Column(name = "registered_by", nullable = false)
-    private Long registeredBy;
+    @OneToOne
+    @JoinColumn(name = "registered_by", nullable = false)
+    private ResponsiblePerson registeredBy;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -56,26 +60,30 @@ public class Pendency extends AbstractEntity {
     @Column(name = "modified_in", nullable = false)
     private LocalDateTime modifiedIn;
 
-    @Column(name = "registered_to", nullable = false)
-    private Long registeredTo;
+    @OneToOne
+    @JoinColumn(name = "registered_to", nullable = false)
+    private ResponsiblePerson registeredTo;
 
     @Column(name = "expected_in")
     private LocalDateTime expectedIn;
 
-    @Column(name = "finished_by")
-    private Long finishedBy;
+    @OneToOne
+    @JoinColumn(name = "finished_by")
+    private ResponsiblePerson finishedBy;
 
     @Column(name = "finished_at")
     private LocalDateTime finishedAt;
 
-    @Column(name = "disapproved_by")
-    private Long disapprovedBy;
+    @OneToOne
+    @JoinColumn(name = "disapproved_by")
+    private ResponsiblePerson disapprovedBy;
 
     @Column(name = "disapproved_at")
     private LocalDateTime disapprovedAt;
 
-    @Column(name = "canceled_by")
-    private Long canceledBy;
+    @OneToOne
+    @JoinColumn(name = "canceled_by")
+    private ResponsiblePerson canceledBy;
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;

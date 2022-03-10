@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -18,8 +20,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponsiblePerson extends AbstractEntity {
-    @Column(name = "id_contract", nullable = false)
-    private Long idContract;
+
+    @OneToOne
+    @JoinColumn(name = "id_contract")
+    private Contract contract;
 
     @Column(name = "name", nullable = false)
     private String name;
