@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
-import br.com.engbr.examples.punchlistapi.dto.ContractView;
+import br.com.engbr.examples.punchlistapi.views.ContractView;
 import br.com.engbr.examples.punchlistapi.services.ContractService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ContractController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ContractView>> getAll() {
+    public ResponseEntity<List<ContractView>> findAll() {
         List<ContractView> contracts = contractService.findAll();
         return ResponseEntity.ok(contracts);
     }

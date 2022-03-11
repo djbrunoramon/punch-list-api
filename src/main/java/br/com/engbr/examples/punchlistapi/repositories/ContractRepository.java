@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.repositories;
 
-import br.com.engbr.examples.punchlistapi.dto.ContractView;
+import br.com.engbr.examples.punchlistapi.views.ContractView;
 import br.com.engbr.examples.punchlistapi.model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 

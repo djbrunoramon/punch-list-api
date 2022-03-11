@@ -1,8 +1,7 @@
 package br.com.engbr.examples.punchlistapi.services;
 
-import br.com.engbr.examples.punchlistapi.dto.ContractView;
-import br.com.engbr.examples.punchlistapi.model.Contract;
 import br.com.engbr.examples.punchlistapi.repositories.ContractRepository;
+import br.com.engbr.examples.punchlistapi.views.ContractView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,4 +21,5 @@ public class ContractService {
     public List<ContractView> findAll() {
         return contractRepository.findAllByActive(true);
     }
+
 }

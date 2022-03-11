@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.services;
 
-import br.com.engbr.examples.punchlistapi.dto.ResponsiblePersonView;
+import br.com.engbr.examples.punchlistapi.views.ResponsiblePersonView;
 import br.com.engbr.examples.punchlistapi.repositories.ResponsiblePersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

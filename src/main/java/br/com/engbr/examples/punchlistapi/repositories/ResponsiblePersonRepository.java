@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.repositories;
 
-import br.com.engbr.examples.punchlistapi.dto.ResponsiblePersonView;
+import br.com.engbr.examples.punchlistapi.views.ResponsiblePersonView;
 import br.com.engbr.examples.punchlistapi.model.ResponsiblePerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 

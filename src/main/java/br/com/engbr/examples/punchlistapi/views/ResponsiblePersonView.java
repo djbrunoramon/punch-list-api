@@ -1,4 +1,4 @@
-package br.com.engbr.examples.punchlistapi.dto;
+package br.com.engbr.examples.punchlistapi.views;
 
 import java.time.LocalDateTime;
 

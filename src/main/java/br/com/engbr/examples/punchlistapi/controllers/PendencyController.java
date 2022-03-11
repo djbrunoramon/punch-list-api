@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
-import br.com.engbr.examples.punchlistapi.dto.PendencyView;
+import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.services.PendencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class PendencyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PendencyView>> getAll() {
+    public ResponseEntity<List<PendencyView>> findAll() {
         List<PendencyView> pendencyViews = pendencyService.findAll();
         return ResponseEntity.ok(pendencyViews);
     }

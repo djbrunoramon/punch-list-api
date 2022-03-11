@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
-import br.com.engbr.examples.punchlistapi.dto.ResponsiblePersonView;
+import br.com.engbr.examples.punchlistapi.views.ResponsiblePersonView;
 import br.com.engbr.examples.punchlistapi.services.ResponsiblePersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ResponsiblePersonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponsiblePersonView>> getAll() {
+    public ResponseEntity<List<ResponsiblePersonView>> findAll() {
         List<ResponsiblePersonView> responsiblePersonViews = responsiblePersonService.findAll();
         return ResponseEntity.ok(responsiblePersonViews);
     }

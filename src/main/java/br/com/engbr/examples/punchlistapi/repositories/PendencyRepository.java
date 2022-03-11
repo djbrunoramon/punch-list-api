@@ -1,6 +1,6 @@
 package br.com.engbr.examples.punchlistapi.repositories;
 
-import br.com.engbr.examples.punchlistapi.dto.PendencyView;
+import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import org.springframework.data.jpa.repository.JpaRepository;
