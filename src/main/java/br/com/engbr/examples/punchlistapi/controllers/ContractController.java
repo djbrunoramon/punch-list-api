@@ -24,4 +24,6 @@ public class ContractController {
         List<ContractView> contracts = contractService.findAll();
         return ResponseEntity.ok(contracts);
     }
+
+
 }
