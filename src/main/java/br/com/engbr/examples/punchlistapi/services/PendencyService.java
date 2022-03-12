@@ -21,4 +21,5 @@ public class PendencyService {
     public List<PendencyView> findAll() {
         return pendencyRepository.findAllByStatus(StatusEnum.OPEN);
     }
+
 }

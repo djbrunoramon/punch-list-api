@@ -1,12 +1,20 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
+import br.com.engbr.examples.punchlistapi.dto.ContractDTO;
+import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
 import br.com.engbr.examples.punchlistapi.views.ContractView;
 import br.com.engbr.examples.punchlistapi.services.ContractService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,5 +33,16 @@ public class ContractController {
         return ResponseEntity.ok(contracts);
     }
 
+    @PostMapping
+    public ResponseEntity<ContractView> save(@Valid @RequestBody ContractDTO contractDTO) {
+        ContractView contractView = contractService.save(contractDTO);
+        return new ResponseEntity<>(contractView, HttpStatus.CREATED);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ContractView> update(@PathVariable Long id,
+                                               @Valid @RequestBody ContractDTO contractDTO) throws IdNotFoundException {
+        ContractView contractView = contractService.update(id,  contractDTO);
+        return ResponseEntity.ok(contractView);
+    }
 }

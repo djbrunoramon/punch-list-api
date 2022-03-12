@@ -40,7 +40,7 @@ public class Contract extends AbstractEntity {
     private LocalDateTime scheduledTo;
 
     @Column(name = "active", nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @Column(name = "inactive_at")
     private LocalDateTime inactiveAt;
