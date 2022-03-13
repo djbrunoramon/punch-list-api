@@ -1,12 +1,11 @@
 package br.com.engbr.examples.punchlistapi.services;
 
-import br.com.engbr.examples.punchlistapi.views.PendencyView;
-import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.repositories.PendencyRepository;
+import br.com.engbr.examples.punchlistapi.views.PendencyView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -18,8 +17,9 @@ public class PendencyService {
         this.pendencyRepository = pendencyRepository;
     }
 
-    public List<PendencyView> findAll() {
-        return pendencyRepository.findAllByStatus(StatusEnum.OPEN);
+    public Page<PendencyView> findAllByContract(Long id, Pageable pageable) {
+        return pendencyRepository.findAllByContractId(id, pageable);
     }
+
 
 }

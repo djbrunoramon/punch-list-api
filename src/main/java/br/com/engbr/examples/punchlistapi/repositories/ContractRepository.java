@@ -13,8 +13,6 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Query("select c from Contract c")
     List<ContractView> listAll();
 
-    List<ContractView> findAllByActive(boolean active);
-
     @Query("select c from Contract c where c.id = ?1")
     Optional<ContractView> readById(Long id);
 }

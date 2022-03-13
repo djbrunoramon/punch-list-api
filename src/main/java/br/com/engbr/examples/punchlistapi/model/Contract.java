@@ -47,4 +47,8 @@ public class Contract extends AbstractEntity {
 
     @Column(name = "estimated_at", columnDefinition = "decimal(15,2)")
     private BigDecimal estimatedAt;
+
+    public Contract(Long id) {
+        this.setId(id);
+    }
 }

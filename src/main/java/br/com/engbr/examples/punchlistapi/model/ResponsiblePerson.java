@@ -39,7 +39,7 @@ public class ResponsiblePerson extends AbstractEntity {
     private LocalDateTime createdAt;
 
     @Column(name = "active", nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @Column(name = "inactive_in")
     private LocalDateTime inactiveIn;

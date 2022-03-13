@@ -1,13 +1,13 @@
 package br.com.engbr.examples.punchlistapi.repositories;
 
-import br.com.engbr.examples.punchlistapi.views.PendencyView;
-import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
+import br.com.engbr.examples.punchlistapi.views.PendencyView;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 public interface PendencyRepository extends JpaRepository<Pendency, Long> {
 
-    List<PendencyView> findAllByStatus(StatusEnum status);
+    Page<PendencyView> findAllByContractId(Long id, Pageable pageable);
 }
