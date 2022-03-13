@@ -44,4 +44,7 @@ public class ResponsiblePerson extends AbstractEntity {
     @Column(name = "inactive_in")
     private LocalDateTime inactiveIn;
 
+    public ResponsiblePerson(Long id) {
+        this.setId(id);
+    }
 }

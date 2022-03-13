@@ -46,7 +46,7 @@ public class Pendency extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private StatusEnum status;
+    private StatusEnum status = StatusEnum.OPEN;
 
     @OneToOne
     @JoinColumn(name = "registered_by", nullable = false)

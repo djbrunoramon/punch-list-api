@@ -40,7 +40,7 @@ public class ResponsiblePersonService {
         ResponsiblePerson responsiblePerson = new ResponsiblePerson();
         BeanUtils.copyProperties(responsiblePersonDTO, responsiblePerson);
         responsiblePerson.setContract(new Contract(responsiblePersonDTO.getIdContract()));
-        responsiblePersonRepository.saveAndFlush(responsiblePerson);
+        responsiblePersonRepository.save(responsiblePerson);
         return responsiblePersonRepository.readById(responsiblePerson.getId()).get();
     }
 
