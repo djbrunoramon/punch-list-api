@@ -4,6 +4,7 @@ import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.services.PendencyService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,24 +29,28 @@ public class PendencyController {
         this.pendencyService = pendencyService;
     }
 
+    @Operation(summary = "Get all Pendencies by Contract")
     @GetMapping("/contract/{id}")
     public ResponseEntity<Page<PendencyView>> findAllByContract(@PathVariable Long id, Pageable pageable) {
         Page<PendencyView> pendencyViews = pendencyService.findAllByContract(id, pageable);
         return ResponseEntity.ok(pendencyViews);
     }
 
+    @Operation(summary = "Get by id Pendency")
     @GetMapping("/{id}")
     public ResponseEntity<PendencyView> findById(@PathVariable Long id) throws IdNotFoundException {
         PendencyView pendencyView = pendencyService.findById(id);
         return ResponseEntity.ok(pendencyView);
     }
 
+    @Operation(summary = "Save a Pendency")
     @PostMapping
     public ResponseEntity<PendencyView> save(@Valid @RequestBody PendencyDTO pendencyDTO) {
         PendencyView pendencyView = pendencyService.save(pendencyDTO);
         return ResponseEntity.ok(pendencyView);
     }
 
+    @Operation(summary = "Update a Pendency by id")
     @PutMapping("/{id}")
     public ResponseEntity<PendencyView> update(@PathVariable Long id,
                                                @Valid @RequestBody PendencyDTO pendencyDTO) throws IdNotFoundException {
