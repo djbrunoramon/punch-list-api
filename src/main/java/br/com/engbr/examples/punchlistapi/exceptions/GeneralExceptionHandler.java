@@ -37,4 +37,10 @@ public class GeneralExceptionHandler {
     public ResponseError httpMessageNotReadableException(Exception e) {
         return new ResponseError(e.getMessage());
     }
+
+    @ExceptionHandler(PendencyStatusInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseError pendencyFieldsInvalidException(Exception e) {
+        return new ResponseError(e.getMessage());
+    }
 }

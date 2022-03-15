@@ -2,6 +2,7 @@ package br.com.engbr.examples.punchlistapi.services;
 
 import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
+import br.com.engbr.examples.punchlistapi.exceptions.PendencyStatusInvalidException;
 import br.com.engbr.examples.punchlistapi.model.Contract;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.model.ResponsiblePerson;
@@ -36,7 +37,7 @@ public class PendencyService {
         return pendencyView.orElseThrow(IdNotFoundException::new);
     }
 
-    public PendencyView save(PendencyDTO pendencyDTO) {
+    public PendencyView save(PendencyDTO pendencyDTO) throws PendencyStatusInvalidException {
         Pendency pendency = new Pendency();
 
         BeanUtils.copyProperties(pendencyDTO, pendency);
@@ -44,18 +45,20 @@ public class PendencyService {
         pendency.setContract(new Contract(pendencyDTO.getIdContract()));
 
         setFieldsOfResponsiblePersons(pendency, pendencyDTO);
+        validatePendencyStatus(pendency);
 
         pendencyRepository.save(pendency);
 
         return pendencyRepository.readById(pendency.getId()).get();
     }
 
-    public PendencyView update(Long idPendency, PendencyDTO pendencyDTO) throws IdNotFoundException {
+    public PendencyView update(Long idPendency, PendencyDTO pendencyDTO) throws IdNotFoundException, PendencyStatusInvalidException {
         Pendency pendency = pendencyRepository.findById(idPendency)
                 .orElseThrow(IdNotFoundException::new);
         BeanUtils.copyProperties(pendencyDTO, pendency);
 
         setFieldsOfResponsiblePersons(pendency, pendencyDTO);
+        validatePendencyStatus(pendency);
 
         pendencyRepository.save(pendency);
 
@@ -70,8 +73,36 @@ public class PendencyService {
         pendency.setCanceledBy(verifyIfResponsiblePersonIsNotNull(pendencyDTO.getCanceledBy()));
     }
 
+    private void validatePendencyStatus(Pendency pendency) throws PendencyStatusInvalidException {
+        switch (pendency.getStatus()) {
+            case OPEN:
+                if (pendency.getRegisteredBy() == null || pendency.getRegisteredTo() == null) {
+                    throw new PendencyStatusInvalidException();
+                }
+                break;
+            case DISAPPROVED:
+                if (pendency.getDisapprovedBy() == null || pendency.getDisapprovedAt() == null) {
+                    throw new PendencyStatusInvalidException();
+                }
+                break;
+            case CANCELED:
+                if (pendency.getCanceledBy() == null || pendency.getCanceledAt() == null) {
+                    throw new PendencyStatusInvalidException();
+                }
+                break;
+            case CLOSED:
+                if (pendency.getFinishedBy() == null || pendency.getFinishedAt() == null) {
+                    throw new PendencyStatusInvalidException();
+                }
+                break;
+            default:
+                throw new PendencyStatusInvalidException();
+        }
+
+    }
+
     private ResponsiblePerson verifyIfResponsiblePersonIsNotNull(Long id) {
-        if(id != null){
+        if (id != null) {
             return new ResponsiblePerson(id);
         }
         return null;

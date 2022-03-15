@@ -2,6 +2,7 @@ package br.com.engbr.examples.punchlistapi.controllers;
 
 import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
+import br.com.engbr.examples.punchlistapi.exceptions.PendencyStatusInvalidException;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.services.PendencyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pendency")
@@ -45,7 +45,7 @@ public class PendencyController {
 
     @Operation(summary = "Save a Pendency")
     @PostMapping
-    public ResponseEntity<PendencyView> save(@Valid @RequestBody PendencyDTO pendencyDTO) {
+    public ResponseEntity<PendencyView> save(@Valid @RequestBody PendencyDTO pendencyDTO) throws PendencyStatusInvalidException {
         PendencyView pendencyView = pendencyService.save(pendencyDTO);
         return ResponseEntity.ok(pendencyView);
     }
@@ -53,7 +53,7 @@ public class PendencyController {
     @Operation(summary = "Update a Pendency by id")
     @PutMapping("/{id}")
     public ResponseEntity<PendencyView> update(@PathVariable Long id,
-                                               @Valid @RequestBody PendencyDTO pendencyDTO) throws IdNotFoundException {
+                                               @Valid @RequestBody PendencyDTO pendencyDTO) throws IdNotFoundException, PendencyStatusInvalidException {
         PendencyView pendencyView = pendencyService.update(id, pendencyDTO);
         return ResponseEntity.ok(pendencyView);
     }
