@@ -1,5 +1,4 @@
 ## Punch-List API - Pending Registration
-***
 
 ### Entities
 * Contract
