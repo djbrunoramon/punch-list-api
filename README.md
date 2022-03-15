@@ -9,7 +9,7 @@
 
 ### Class Diagram
 
-<img align="left" src="https://github.com/djbrunoramon/punch-list-api/docs/img/punchlist-api.drawio.svg"/>
+<img align="left" src="https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/punchlist-api.drawio.svg"/>
 
 ### Technologies
 * Spring Web
