@@ -1,5 +1,7 @@
 ## Punch-List API - Pending Registration
 
+[Entities](https://github.com/djbrunoramon/punch-list-api#Entities)
+[Technologies](https://github.com/djbrunoramon/punch-list-api#Technologies)
 
 ## Entities
 * Contract
