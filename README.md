@@ -1,12 +1,25 @@
 ## Punch-List API - Pending Registration
 
+[Technologies](https://github.com/djbrunoramon/punch-list-api#technologies)
+
 [Entities](https://github.com/djbrunoramon/punch-list-api#entities)
 
 [Class Diagram](https://github.com/djbrunoramon/punch-list-api#class-diagram)
 
 [Endpoints for Consumption](https://github.com/djbrunoramon/punch-list-api#endpoints-for-consumption)
 
-[Technologies](https://github.com/djbrunoramon/punch-list-api#technologies)
+
+## Technologies
+* Maven
+* Java 11
+* Spring Web
+* Spring Boot
+* Spring Data JPA
+* Spring Validation
+* SpringDoc-OpenAPI
+* Project Lombok
+* Liquibase
+* H2 Database
 
 
 ## Entities
@@ -26,14 +39,3 @@
 
 ![swagger](https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/overview_endpoints_punch-list-api.png "Swagger")
 
-## Technologies
-* Maven
-* Java 11
-* Spring Web
-* Spring Boot
-* Spring Data JPA
-* Spring Validation
-* SpringDoc-OpenAPI
-* Project Lombok
-* Liquibase
-* H2 Database
