@@ -1,9 +1,13 @@
 ## Punch-List API - Pending Registration
 
 [Entities](https://github.com/djbrunoramon/punch-list-api#entities)
+
 [Class Diagram](https://github.com/djbrunoramon/punch-list-api#class-diagram)
+
 [Endpoints for Consumption](https://github.com/djbrunoramon/punch-list-api#endpoints-for-consumption)
+
 [Technologies](https://github.com/djbrunoramon/punch-list-api#technologies)
+
 
 ## Entities
 * Contract
