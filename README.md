@@ -1,25 +1,24 @@
 ## Punch-List API - Pending Registration
 
-### Entities
+
+## Entities
 * Contract
 * Pendency
 * ResponsiblePerson
 * StatusEnum
 
-***
-### Class Diagram
 
-<img align="left" src="https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/punchlist-api.drawio.svg"/>
+## Class Diagram
 
-***
-### Endpoints for Consumption
+![class-diagram](https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/punchlist-api.drawio.svg "Class Diagram")
+
+## Endpoints for Consumption
 
 **Link to access Swagger after Up Application:** http://localhost:8080/swagger-ui/index.html
 
-<img align="left" src="https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/overview_endpoints_punch-list-api.png"/>
+![swagger](https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/overview_endpoints_punch-list-api.png "Swagger")
 
-***
-### Technologies
+## Technologies
 * Maven
 * Spring Web
 * Spring Boot
