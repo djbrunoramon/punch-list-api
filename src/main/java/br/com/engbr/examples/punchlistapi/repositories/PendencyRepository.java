@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface PendencyRepository extends JpaRepository<Pendency, Long> {
 
+    @Query("select p from Pendency p where p.contract.id = ?1")
     Page<PendencyView> findAllByContractId(Long id, Pageable pageable);
 
     Optional<PendencyView> readById(Long id);

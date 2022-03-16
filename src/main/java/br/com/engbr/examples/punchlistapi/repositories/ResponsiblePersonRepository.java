@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface ResponsiblePersonRepository extends JpaRepository<ResponsiblePerson, Long> {
 
+    @Query("select r from ResponsiblePerson r where r.contract.id = ?1")
     Page<ResponsiblePersonView> findAllByContractId(Long id, Pageable pageable);
 
     @Query("select r from ResponsiblePerson r where r.id = ?1")

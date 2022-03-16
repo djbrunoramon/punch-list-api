@@ -8,6 +8,8 @@ import br.com.engbr.examples.punchlistapi.services.PendencyService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,8 @@ public class PendencyController {
 
     @Operation(summary = "Get all Pendencies by Contract")
     @GetMapping("/contract/{id}")
-    public ResponseEntity<Page<PendencyView>> findAllByContract(@PathVariable Long id, Pageable pageable) {
+    public ResponseEntity<Page<PendencyView>> findAllByContract(@PathVariable Long id,
+                                                                @PageableDefault(page = 0, size = 20, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<PendencyView> pendencyViews = pendencyService.findAllByContract(id, pageable);
         return ResponseEntity.ok(pendencyViews);
     }
