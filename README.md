@@ -28,6 +28,7 @@
 
 ## Technologies
 * Maven
+* Java 11
 * Spring Web
 * Spring Boot
 * Spring Data JPA
