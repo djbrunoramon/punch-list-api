@@ -1,7 +1,6 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
 import br.com.engbr.examples.punchlistapi.dto.ContractDTO;
-
 import br.com.engbr.examples.punchlistapi.utils.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,8 @@ import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -35,20 +36,33 @@ class ContractControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    @Transactional
-//    void saveAContract_ExpectCreated() throws Exception {
-//        ContractDTO contractDTO = this.createContractDTO();
-//        byte[] contractDTOBytes = TestUtil.convertObjectToJsonBytes(contractDTO);
-//        contractController
-//                .perform(post(URL_CONTRACT)
-//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                        .content(contractDTOBytes))
-//                .andExpect(status().isCreated());
-//    }
+    @Test
+    @Transactional
+    void saveAContract_ExpectCreated() throws Exception {
+        ContractDTO contractDTO = this.createContractDTO();
+        byte[] contractDTOBytes = TestUtil.convertObjectToJsonBytes(contractDTO);
+        contractController
+                .perform(post(URL_CONTRACT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(contractDTOBytes))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.numberContract").value(contractDTO.getNumberContract()))
+                .andExpect(jsonPath("$.description").value(contractDTO.getDescription()));
+    }
 
     @Test
-    void update() {
+    void updateAContract_ExpectCreated() throws Exception {
+        ContractDTO contractDTO = this.createContractDTO();
+        byte[] contractDTOBytes = TestUtil.convertObjectToJsonBytes(contractDTO);
+        contractController
+                .perform(put(URL_CONTRACT + "/" + 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(contractDTOBytes))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.numberContract").value(contractDTO.getNumberContract()))
+                .andExpect(jsonPath("$.description").value(contractDTO.getDescription()));
     }
 
     private ContractDTO createContractDTO() {
@@ -56,9 +70,9 @@ class ContractControllerTest {
         contractDTO.setNumberContract("BR1010-TEST");
         contractDTO.setDescription("Contract For Test");
         contractDTO.setAddress("Curitiba-PR-BR");
-        contractDTO.setStartAt(LocalDateTime.parse("2022-03-04T10:30:00"));
-//        contractDTO.setScheduledTo(LocalDateTime.now().plusDays(340L));
-//        contractDTO.setEstimatedAt(new BigDecimal("10000000000.00"));
+        contractDTO.setEstimatedAt(new BigDecimal("10000000000.00"));
+        contractDTO.setStartAt(LocalDateTime.now().plusDays(10L));
+        contractDTO.setScheduledTo(LocalDateTime.now().plusDays(340L));
         return contractDTO;
     }
 

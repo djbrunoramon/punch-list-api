@@ -1,5 +1,8 @@
 package br.com.engbr.examples.punchlistapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Getter
 @Setter
+@Getter
 public class ContractDTO {
 
     @NotBlank
@@ -27,17 +30,4 @@ public class ContractDTO {
     private LocalDateTime scheduledTo;
 
     private BigDecimal estimatedAt;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContractDTO that = (ContractDTO) o;
-        return numberContract.equals(that.numberContract) && description.equals(that.description) && address.equals(that.address) && startAt.equals(that.startAt) && scheduledTo.equals(that.scheduledTo) && estimatedAt.equals(that.estimatedAt);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(numberContract, description, address, startAt, scheduledTo, estimatedAt);
-    }
 }
