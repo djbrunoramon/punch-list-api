@@ -33,7 +33,7 @@ public class ResponsiblePersonController {
     @Operation(summary = "Get all Responsible Person by Contract")
     @GetMapping("/contract/{id}")
     public ResponseEntity<Page<ResponsiblePersonView>> findAllByContract(@PathVariable Long id,
-                                                                         @PageableDefault(page = 0, size = 20, sort = "namecreatedAt", direction = Sort.Direction.ASC) Pageable pageable) {
+                                                                         @PageableDefault(page = 0, size = 20, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<ResponsiblePersonView> responsiblePersonViews = responsiblePersonService.findAllByContract(id, pageable);
         return ResponseEntity.ok(responsiblePersonViews);
     }
