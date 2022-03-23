@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +51,7 @@ public class PendencyController {
     @PostMapping
     public ResponseEntity<PendencyView> save(@Valid @RequestBody PendencyDTO pendencyDTO) throws PendencyStatusInvalidException {
         PendencyView pendencyView = pendencyService.save(pendencyDTO);
-        return ResponseEntity.ok(pendencyView);
+        return new ResponseEntity<>(pendencyView, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a Pendency by id")

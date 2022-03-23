@@ -55,7 +55,7 @@ class ResponsiblePersonControllerTest {
                 .perform(post(URL_RESPONSIBLE_PERSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonBytes(responsiblePersonDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(responsiblePersonDTO.getName()));
     }
 
