@@ -40,11 +40,11 @@ class ContractControllerTest {
     @Transactional
     void saveAContract_ExpectCreated() throws Exception {
         ContractDTO contractDTO = this.createContractDTO();
-        byte[] contractDTOBytes = TestUtil.convertObjectToJsonBytes(contractDTO);
+
         contractController
                 .perform(post(URL_CONTRACT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(contractDTOBytes))
+                        .content(TestUtil.convertObjectToJsonBytes(contractDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.numberContract").value(contractDTO.getNumberContract()))
@@ -52,17 +52,43 @@ class ContractControllerTest {
     }
 
     @Test
+    @Transactional
+    void saveAContract_WithDescriptionFieldNull_ExpectBadRequest() throws Exception {
+        ContractDTO contractDTO = this.createContractDTO();
+        contractDTO.setDescription(null);
+
+        contractController
+                .perform(post(URL_CONTRACT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.convertObjectToJsonBytes(contractDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void updateAContract_ExpectCreated() throws Exception {
         ContractDTO contractDTO = this.createContractDTO();
-        byte[] contractDTOBytes = TestUtil.convertObjectToJsonBytes(contractDTO);
+
         contractController
                 .perform(put(URL_CONTRACT + "/" + 1L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(contractDTOBytes))
+                        .content(TestUtil.convertObjectToJsonBytes(contractDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.numberContract").value(contractDTO.getNumberContract()))
                 .andExpect(jsonPath("$.description").value(contractDTO.getDescription()));
+    }
+
+    @Test
+    @Transactional
+    void updateAContract_WithDescriptionFieldNull_ExpectBadRequest() throws Exception {
+        ContractDTO contractDTO = this.createContractDTO();
+        contractDTO.setDescription(null);
+
+        contractController
+                .perform(put(URL_CONTRACT + "/" + 1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.convertObjectToJsonBytes(contractDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     private ContractDTO createContractDTO() {

@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class PendencyControllerTest {
 
+    public static final String MESSAGE_ID_NOT_FOUND = "ID not found";
+
     @Autowired
     private MockMvc contractController;
 
@@ -46,6 +48,14 @@ class PendencyControllerTest {
                 .andExpect(jsonPath("$.areaIdentification").value("GAS TURBINE"))
                 .andExpect(jsonPath("$.description").value("Touch-up paint on the east side of the enclosure."))
                 .andExpect(jsonPath("$.priority").value("B"));
+    }
+
+    @Test
+    void getPendencyById_WithIdNotExistent_ExpectBadRequest() throws Exception {
+        contractController
+                .perform(get(URL_PENDENCY + "/" + 100L))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(MESSAGE_ID_NOT_FOUND));
     }
 
     @Test
@@ -75,6 +85,20 @@ class PendencyControllerTest {
 
     @Test
     @Transactional
+    void savePendency_WithDescriptionFieldNull_ExpectBadRequest() throws Exception {
+        PendencyDTO pendencyDTO = this.createPendencyDTO();
+        pendencyDTO.setDescription(null);
+
+        contractController
+                .perform(post(URL_PENDENCY)
+                        .content(TestUtil.convertObjectToJsonBytes(pendencyDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @Transactional
     void updatePendency_ExpectCreated() throws Exception {
         PendencyDTO pendencyDTO = this.createPendencyDTO();
         MockHttpServletResponse response = contractController
@@ -96,6 +120,32 @@ class PendencyControllerTest {
         assertThat(pendency.getRegisteredBy().getId()).isEqualTo(pendencyDTO.getRegisteredBy());
         assertThat(pendency.getRegisteredTo().getId()).isEqualTo(pendencyDTO.getRegisteredTo());
         assertThat(pendency.getExpectedIn()).isEqualTo(pendencyDTO.getExpectedIn());
+    }
+
+    @Test
+    @Transactional
+    void updatePendency_WithDescriptionFieldNull_ExpectBadRequest() throws Exception {
+        PendencyDTO pendencyDTO = this.createPendencyDTO();
+        pendencyDTO.setDescription(null);
+
+        contractController
+                .perform(put(URL_PENDENCY + "/" + 1L)
+                        .content(TestUtil.convertObjectToJsonBytes(pendencyDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void updatePendency_WithIDNotExistent_ExpectBadRequest() throws Exception {
+        PendencyDTO pendencyDTO = this.createPendencyDTO();
+
+        contractController
+                .perform(put(URL_PENDENCY + "/" + 1000L)
+                        .content(TestUtil.convertObjectToJsonBytes(pendencyDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(MESSAGE_ID_NOT_FOUND));
     }
 
     private PendencyDTO createPendencyDTO () {
