@@ -61,7 +61,33 @@ class ResponsiblePersonControllerTest {
 
     @Test
     @Transactional
-    void updateResponsiblePerson_ExpectUpdated() throws Exception {
+    void saveResponsiblePerson_WithNameFieldNull_ExpectBadRequest() throws Exception {
+        ResponsiblePersonDTO responsiblePersonDTO = createdResponsiblePersonDTO();
+        responsiblePersonDTO.setName(null);
+
+        responsiblePersonController
+                .perform(post(URL_RESPONSIBLE_PERSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.convertObjectToJsonBytes(responsiblePersonDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void updateResponsiblePerson_WithNameFieldNull_ExpectBadRequest() throws Exception {
+        ResponsiblePersonDTO responsiblePersonDTO = createdResponsiblePersonDTO();
+        responsiblePersonDTO.setName(null);
+
+        responsiblePersonController
+                .perform(put(URL_RESPONSIBLE_PERSON + "/" + 2L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.convertObjectToJsonBytes(responsiblePersonDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void updateResponsiblePerson_With_ExpectUpdated() throws Exception {
         ResponsiblePersonDTO responsiblePersonDTO = createdResponsiblePersonDTO();
 
         responsiblePersonController
