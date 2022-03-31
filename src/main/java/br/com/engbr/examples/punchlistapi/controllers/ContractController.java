@@ -49,4 +49,11 @@ public class ContractController {
         ContractView contractView = contractService.update(id,  contractDTO);
         return ResponseEntity.ok(contractView);
     }
+
+    @Operation(summary = "Get contract By Id")
+    @GetMapping("/{id}")
+    public ResponseEntity<ContractView> update(@PathVariable Long id) throws IdNotFoundException {
+        ContractView contractView = contractService.findById(id);
+        return ResponseEntity.ok(contractView);
+    }
 }
