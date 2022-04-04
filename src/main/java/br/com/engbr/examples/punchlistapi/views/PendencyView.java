@@ -1,6 +1,7 @@
 package br.com.engbr.examples.punchlistapi.views;
 
 import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
@@ -19,16 +20,22 @@ public interface PendencyView {
 
     StatusEnum getStatus();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getCreatedAt();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getModifiedIn();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getExpectedIn();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getFinishedAt();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getDisapprovedAt();
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     LocalDateTime getCanceledAt();
 
     ContractView getContract();

@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -80,7 +81,7 @@ class PendencyControllerTest {
         assertThat(pendency.getDiscipline()).isEqualTo(pendencyDTO.getDiscipline());
         assertThat(pendency.getRegisteredBy().getId()).isEqualTo(pendencyDTO.getRegisteredBy());
         assertThat(pendency.getRegisteredTo().getId()).isEqualTo(pendencyDTO.getRegisteredTo());
-        assertThat(pendency.getExpectedIn()).isEqualTo(pendencyDTO.getExpectedIn());
+        assertThat(pendency.getExpectedIn().truncatedTo(ChronoUnit.DAYS)).isEqualTo(pendencyDTO.getExpectedIn().truncatedTo(ChronoUnit.DAYS));
     }
 
     @Test
@@ -119,7 +120,7 @@ class PendencyControllerTest {
         assertThat(pendency.getDiscipline()).isEqualTo(pendencyDTO.getDiscipline());
         assertThat(pendency.getRegisteredBy().getId()).isEqualTo(pendencyDTO.getRegisteredBy());
         assertThat(pendency.getRegisteredTo().getId()).isEqualTo(pendencyDTO.getRegisteredTo());
-        assertThat(pendency.getExpectedIn()).isEqualTo(pendencyDTO.getExpectedIn());
+        assertThat(pendency.getExpectedIn().truncatedTo(ChronoUnit.DAYS)).isEqualTo(pendencyDTO.getExpectedIn().truncatedTo(ChronoUnit.DAYS));
     }
 
     @Test
