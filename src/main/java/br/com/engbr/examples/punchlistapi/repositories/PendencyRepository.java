@@ -1,5 +1,6 @@
 package br.com.engbr.examples.punchlistapi.repositories;
 
+import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import org.springframework.data.domain.Page;
@@ -15,4 +16,7 @@ public interface PendencyRepository extends JpaRepository<Pendency, Long> {
     Page<PendencyView> findAllByContractId(Long id, Pageable pageable);
 
     Optional<PendencyView> readById(Long id);
+
+    @Query("select count(p) from Pendency p where p.contract.id = ?1 and p.status = ?2")
+    long countByContractIdAndStatus(Long id, StatusEnum statusEnum);
 }

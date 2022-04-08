@@ -1,12 +1,14 @@
 package br.com.engbr.examples.punchlistapi.services;
 
 import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
+import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
 import br.com.engbr.examples.punchlistapi.exceptions.PendencyStatusInvalidException;
 import br.com.engbr.examples.punchlistapi.model.Contract;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.model.ResponsiblePerson;
 import br.com.engbr.examples.punchlistapi.repositories.PendencyRepository;
+import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,6 +68,16 @@ public class PendencyService {
         pendencyRepository.save(pendency);
 
         return pendencyRepository.readById(pendency.getId()).get();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PendencyByStatusView> getDataCharPie(Long contractId){
+        List<PendencyByStatusView> data = new ArrayList<>();
+
+        Arrays.asList(StatusEnum.values())
+                .forEach(statusEnum -> data.add(new PendencyByStatusView(statusEnum, pendencyRepository.countByContractIdAndStatus(contractId, statusEnum))));
+
+        return data;
     }
 
     private void setFieldsOfResponsiblePersons(Pendency pendency, PendencyDTO pendencyDTO) {

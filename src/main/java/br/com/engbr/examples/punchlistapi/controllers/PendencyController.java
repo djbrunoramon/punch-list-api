@@ -1,8 +1,10 @@
 package br.com.engbr.examples.punchlistapi.controllers;
 
 import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
+import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
 import br.com.engbr.examples.punchlistapi.exceptions.PendencyStatusInvalidException;
+import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.services.PendencyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/pendency")
@@ -62,4 +66,10 @@ public class PendencyController {
         return ResponseEntity.ok(pendencyView);
     }
 
+    @Operation(summary = "Get data for chart pie by contract")
+    @GetMapping("/contract/{id}/chart/pie")
+    public ResponseEntity<List<PendencyByStatusView>> countPendencyByStatus(@PathVariable Long id) {
+        List<PendencyByStatusView> data = pendencyService.getDataCharPie(id);
+        return ResponseEntity.ok(data);
+    }
 }
