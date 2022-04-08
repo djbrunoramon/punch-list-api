@@ -4,6 +4,7 @@ import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.utils.TestUtil;
+import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,6 +40,22 @@ class PendencyControllerTest {
         contractController
                 .perform(get(URL_PENDENCY + "/contract/" + 1L))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getPendencyByStatusAndContract_ExpectOk() throws Exception {
+        MockHttpServletResponse response = contractController
+                .perform(get(URL_PENDENCY + "/contract/" + 1L + "/chart/pie"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+
+        PendencyByStatusView[] pendencyByStatusViewList = TestUtil.toObject(response.getContentAsByteArray(), PendencyByStatusView[].class);
+
+        assertThat(pendencyByStatusViewList)
+                .hasSize(4)
+                .anyMatch(found ->
+                        found.getLabel().equals(StatusEnum.OPEN) &&
+                        found.getQuantity() == 3L);
     }
 
     @Test
