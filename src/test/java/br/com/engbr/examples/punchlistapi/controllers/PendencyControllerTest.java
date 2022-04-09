@@ -4,6 +4,7 @@ import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.utils.TestUtil;
+import br.com.engbr.examples.punchlistapi.views.PendencyByPriorityView;
 import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,17 @@ class PendencyControllerTest {
                 .anyMatch(found ->
                         found.getLabel().equals(StatusEnum.OPEN) &&
                         found.getQuantity() == 3L);
+    }
+
+    @Test
+    void getPendencyByPriorityAndContract_ExpectOk() throws Exception {
+        contractController
+                .perform(get(URL_PENDENCY + "/contract/" + 1L + "/chart/bar/OPEN"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].priority").value("A"))
+                .andExpect(jsonPath("$.[0].quantity").value(1))
+                .andExpect(jsonPath("$.[1].priority").value("B"))
+                .andExpect(jsonPath("$.[1].quantity").value(2));
     }
 
     @Test

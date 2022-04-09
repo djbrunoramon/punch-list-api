@@ -8,6 +8,7 @@ import br.com.engbr.examples.punchlistapi.model.Contract;
 import br.com.engbr.examples.punchlistapi.model.Pendency;
 import br.com.engbr.examples.punchlistapi.model.ResponsiblePerson;
 import br.com.engbr.examples.punchlistapi.repositories.PendencyRepository;
+import br.com.engbr.examples.punchlistapi.views.PendencyByPriorityView;
 import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import org.springframework.beans.BeanUtils;
@@ -78,6 +79,11 @@ public class PendencyService {
                 .forEach(statusEnum -> data.add(new PendencyByStatusView(statusEnum, pendencyRepository.countByContractIdAndStatus(contractId, statusEnum))));
 
         return data;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PendencyByPriorityView> getDataCharBar(Long contractId, StatusEnum statusEnum){
+        return pendencyRepository.countPendencyByPriorityAndContractId(contractId, statusEnum);
     }
 
     private void setFieldsOfResponsiblePersons(Pendency pendency, PendencyDTO pendencyDTO) {

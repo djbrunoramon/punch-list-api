@@ -4,6 +4,7 @@ import br.com.engbr.examples.punchlistapi.dto.PendencyDTO;
 import br.com.engbr.examples.punchlistapi.enums.StatusEnum;
 import br.com.engbr.examples.punchlistapi.exceptions.IdNotFoundException;
 import br.com.engbr.examples.punchlistapi.exceptions.PendencyStatusInvalidException;
+import br.com.engbr.examples.punchlistapi.views.PendencyByPriorityView;
 import br.com.engbr.examples.punchlistapi.views.PendencyByStatusView;
 import br.com.engbr.examples.punchlistapi.views.PendencyView;
 import br.com.engbr.examples.punchlistapi.services.PendencyService;
@@ -70,6 +71,13 @@ public class PendencyController {
     @GetMapping("/contract/{id}/chart/pie")
     public ResponseEntity<List<PendencyByStatusView>> countPendencyByStatus(@PathVariable Long id) {
         List<PendencyByStatusView> data = pendencyService.getDataCharPie(id);
+        return ResponseEntity.ok(data);
+    }
+
+    @Operation(summary = "Get data for chart bar by contract")
+    @GetMapping("/contract/{id}/chart/bar/{status}")
+    public ResponseEntity<List<PendencyByPriorityView>> countPendencyByPriority(@PathVariable Long id, @PathVariable StatusEnum status) {
+        List<PendencyByPriorityView> data = pendencyService.getDataCharBar(id, status);
         return ResponseEntity.ok(data);
     }
 }
