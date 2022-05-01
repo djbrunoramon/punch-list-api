@@ -1,6 +1,6 @@
 [![Java CI with Maven](https://github.com/djbrunoramon/punch-list-api/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/djbrunoramon/punch-list-api/actions/workflows/maven.yml)
 
-## Punch-List API - Pending Registration
+## Punch List API - Pending Registration
 
 [Technologies](https://github.com/djbrunoramon/punch-list-api#technologies)
 
