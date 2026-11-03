@@ -200,8 +200,9 @@ The status determines which fields are required; otherwise the API answers 422:
 | `CLOSED` | `finishedBy`, `finishedAt` |
 
 Every responsible person referenced by a pendency (`registeredBy`, `registeredTo`, `finishedBy`, `disapprovedBy`,
-`canceledBy`) must belong to the same contract as the pendency (`idContract`); otherwise the API answers 422. An
-unknown contract or responsible person answers 404.
+`canceledBy`) must belong to the same contract as the pendency (`idContract`); otherwise the API answers 422. For the same
+reason the contract of an existing responsible person cannot be changed (`PUT` with another `idContract` answers 422).
+An unknown contract or responsible person answers 404.
 
 ## Swagger, OpenAPI and health
 

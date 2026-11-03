@@ -115,4 +115,26 @@ class ResponsiblePersonControllerIT {
                         """))
                 .hasStatus(HttpStatus.NOT_FOUND);
     }
+
+    @Test
+    void update_changingContract_returns422AndKeepsContract() {
+        String location = mvc.post().uri("/api/v1/contract")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"numberContract\":\"OTHER\",\"description\":\"d\",\"address\":\"a\"}")
+                .exchange().getResponse().getHeader("Location");
+        String otherContractId = location.substring(location.lastIndexOf('/') + 1);
+
+        assertThat(mvc.put().uri(URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"idContract\":" + otherContractId
+                        + ",\"name\":\"Bruno Machado\",\"occupation\":\"o\",\"department\":\"d\"}"))
+                .hasStatus(HttpStatus.UNPROCESSABLE_CONTENT)
+                .bodyJson()
+                .extractingPath("$.type").isEqualTo("https://punch-list/errors/business-rule");
+
+        assertThat(mvc.get().uri(URL + "/1"))
+                .hasStatusOk()
+                .bodyJson()
+                .extractingPath("$.contract.id").isEqualTo(1);
+    }
 }

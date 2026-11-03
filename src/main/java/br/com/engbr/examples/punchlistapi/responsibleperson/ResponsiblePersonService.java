@@ -2,6 +2,7 @@ package br.com.engbr.examples.punchlistapi.responsibleperson;
 
 import br.com.engbr.examples.punchlistapi.contract.Contract;
 import br.com.engbr.examples.punchlistapi.contract.ContractService;
+import br.com.engbr.examples.punchlistapi.shared.error.BusinessRuleException;
 import br.com.engbr.examples.punchlistapi.shared.error.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +44,11 @@ public class ResponsiblePersonService {
 
     public ResponsiblePersonResponse update(Long id, ResponsiblePersonRequest request) {
         ResponsiblePerson person = getEntity(id);
-        Contract contract = contractService.getEntity(request.idContract());
-        ResponsiblePersonMapper.update(person, request, contract);
+        if (!person.getContract().getId().equals(request.idContract())) {
+            // pendencies reference people of their own contract; moving a person would break that invariant
+            throw new BusinessRuleException("The contract of a responsible person cannot be changed");
+        }
+        ResponsiblePersonMapper.update(person, request, person.getContract());
         return ResponsiblePersonMapper.toResponse(person);
     }
 

@@ -60,7 +60,7 @@ Fluxo de um endpoint: `Request` (record com Bean Validation, `@Valid`) → `Mapp
 - Erros: exceções **unchecked** (`ResourceNotFoundException`, `BusinessRuleException`) e `ApiExceptionHandler` (`@RestControllerAdvice`) devolve `ProblemDetail` (`application/problem+json`) com `type` `https://punch-list/errors/{not-found|validation|business-rule|conflict|internal}`. Validação: 400 com `errors: [{field, message}]`; id inexistente: 404; regra de negócio: 422; integridade: 409 com detalhe genérico; inesperado: 500 com `detail: "Unexpected error"`. Nova exceção de domínio: crie em `shared/error` e registre handler em `ApiExceptionHandler`. Nunca devolva `getMessage()` de exceção inesperada ou de persistência.
 - `@Operation(summary = "...")` em todo endpoint novo.
 - Listagens paginadas usam `Pageable` com `@PageableDefault` e retornam `Page<Response>` (máx. 100 por página).
-- Regra de status da pendência: `PendencyStatusValidator` (`OPEN` → registeredBy/registeredTo; `DISAPPROVED` → disapprovedBy/At; `CANCELED` → canceledBy/At; `CLOSED` → finishedBy/At), violação = 422. Responsáveis referenciados devem ser do mesmo contrato da pendência, senão 422. Mantenha ao alterar o fluxo.
+- Regra de status da pendência: `PendencyStatusValidator` (`OPEN` → registeredBy/registeredTo; `DISAPPROVED` → disapprovedBy/At; `CANCELED` → canceledBy/At; `CLOSED` → finishedBy/At), violação = 422. Responsáveis referenciados devem ser do mesmo contrato da pendência, senão 422; por isso o contrato de um responsável não pode mudar no PUT (422). Mantenha ao alterar o fluxo.
 - Código, nomes, mensagens de commit e de erro em inglês, seguindo o restante do projeto.
 
 ### Regras do ArchUnit (`ArchitectureTest`)
@@ -80,6 +80,9 @@ Fluxo de um endpoint: `Request` (record com Bean Validation, `@Valid`) → `Mapp
 - Os testes dependem dos dados demo (ex.: contrato id 1 com 3 pendências `OPEN`). Alterar esses dados quebra asserções.
 
 ## Testes
+
+- `PersistenceFlowIT` roda **sem** transação de teste: prova commit e leitura em contexto novo (`open-in-view=false`). Os outros ITs usam `@IntegrationTest` (com rollback).
+- `ArchitectureRulesSelfTest` prova que a regra de entidade exposta pega tipos genéricos.
 
 - `*WebTest`: `@WebMvcTest(<Controller>.class)` com `MockMvcTester` e o service como `@MockitoBean`. Cobrem rota, status, validação e formato do erro.
 - `*IT`: anotados com `@IntegrationTest` (`@SpringBootTest` + MockMvc + Testcontainers PostgreSQL + `@Transactional`, rollback por teste), contra os dados demo. Rodam no `verify` (Failsafe).
