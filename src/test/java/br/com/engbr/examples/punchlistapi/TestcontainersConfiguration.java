@@ -12,6 +12,11 @@ public class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer postgresContainer() {
-        return new PostgreSQLContainer(DockerImageName.parse("postgres:17-alpine"));
+        // same database/user names as compose.yaml: the user name equals the schema name, which changes
+        // the "$user" entry of the PostgreSQL search_path once the schema exists (see LiquibaseHistoryIT)
+        return new PostgreSQLContainer(DockerImageName.parse("postgres:17-alpine"))
+                .withDatabaseName("punch_list")
+                .withUsername("punch_list")
+                .withPassword("punch_list");
     }
 }
