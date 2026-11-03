@@ -3,15 +3,34 @@ package br.com.engbr.examples.punchlistapi.pendency;
 import br.com.engbr.examples.punchlistapi.responsibleperson.ResponsiblePerson;
 import br.com.engbr.examples.punchlistapi.shared.error.BusinessRuleException;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.MessageSourceResolvable;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
+import java.util.Locale;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PendencyStatusValidatorTest {
+
+    private static final ResourceBundleMessageSource MESSAGES = new ResourceBundleMessageSource();
+
+    static {
+        MESSAGES.setBasename("messages");
+        MESSAGES.setDefaultEncoding("UTF-8");
+        MESSAGES.setFallbackToSystemLocale(false);
+    }
+
+    /** Resolves the exception message as the API does, in English. */
+    private static String english(Throwable ex) {
+        return MESSAGES.getMessage((MessageSourceResolvable) ex, Locale.ENGLISH);
+    }
+
 
     private static Pendency valid(PendencyStatus status) {
         Pendency p = new Pendency();
@@ -49,7 +68,7 @@ class PendencyStatusValidatorTest {
         p.setRegisteredBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .hasMessage("Status OPEN requires registeredBy and registeredTo");
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status OPEN requires registered by and registered to"));
     }
 
     @Test
@@ -65,7 +84,7 @@ class PendencyStatusValidatorTest {
         p.setFinishedBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .hasMessage("Status CLOSED requires finishedBy and finishedAt");
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status CLOSED requires finished by and finished at"));
     }
 
     @Test
@@ -81,7 +100,7 @@ class PendencyStatusValidatorTest {
         p.setDisapprovedBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .hasMessage("Status DISAPPROVED requires disapprovedBy and disapprovedAt");
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status DISAPPROVED requires disapproved by and disapproved at"));
     }
 
     @Test
@@ -97,7 +116,7 @@ class PendencyStatusValidatorTest {
         p.setCanceledBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .hasMessage("Status CANCELED requires canceledBy and canceledAt");
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status CANCELED requires canceled by and canceled at"));
     }
 
     @Test

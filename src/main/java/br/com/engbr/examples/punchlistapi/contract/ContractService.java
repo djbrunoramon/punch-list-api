@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional
 public class ContractService {
 
-    static final String RESOURCE = "Contract";
+    static final String RESOURCE = "resource.contract";
 
     private final ContractRepository contractRepository;
 

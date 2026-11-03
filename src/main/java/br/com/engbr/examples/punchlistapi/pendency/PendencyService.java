@@ -20,7 +20,7 @@ import java.util.List;
 @Transactional
 public class PendencyService {
 
-    static final String RESOURCE = "Pendency";
+    static final String RESOURCE = "resource.pendency";
 
     private final PendencyRepository pendencyRepository;
     private final ContractService contractService;
@@ -94,8 +94,8 @@ public class PendencyService {
         }
         ResponsiblePerson person = responsiblePersonService.getEntity(id);
         if (!person.getContract().getId().equals(contract.getId())) {
-            throw new BusinessRuleException(
-                    "Responsible person %d does not belong to contract %d".formatted(id, contract.getId()));
+            throw new BusinessRuleException("error.businessRule.responsiblePersonOutsideContract",
+                    String.valueOf(id), String.valueOf(contract.getId()));
         }
         return person;
     }

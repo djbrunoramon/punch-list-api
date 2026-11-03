@@ -40,7 +40,7 @@ class ContractControllerWebTest {
 
     @Test
     void findById_notFound_returnsProblemDetail() {
-        given(contractService.findById(7L)).willThrow(new ResourceNotFoundException("Contract", 7L));
+        given(contractService.findById(7L)).willThrow(new ResourceNotFoundException("resource.contract", 7L));
 
         assertThat(mvc.get().uri(URL + "/7"))
                 .hasStatus(HttpStatus.NOT_FOUND)

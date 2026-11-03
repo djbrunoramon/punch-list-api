@@ -4,6 +4,7 @@ import br.com.engbr.examples.punchlistapi.pendency.chart.PendencyByPriority;
 import br.com.engbr.examples.punchlistapi.shared.error.BusinessRuleException;
 import br.com.engbr.examples.punchlistapi.shared.error.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
@@ -66,7 +67,9 @@ class PendencyControllerWebTest {
     @Test
     void create_businessRuleViolation_returns422() {
         given(pendencyService.create(any())).willThrow(
-                new BusinessRuleException("Status CLOSED requires finishedBy and finishedAt"));
+                new BusinessRuleException("error.businessRule.pendencyStatusRequiredFields", "CLOSED",
+                        new DefaultMessageSourceResolvable("field.finishedBy"),
+                        new DefaultMessageSourceResolvable("field.finishedAt")));
 
         assertThat(mvc.post().uri(URL).contentType(MediaType.APPLICATION_JSON).content(VALID_BODY))
                 .hasStatus(HttpStatus.UNPROCESSABLE_CONTENT)
@@ -75,13 +78,13 @@ class PendencyControllerWebTest {
                 .satisfies(json -> {
                     assertThat(json).extractingPath("$.type").isEqualTo("https://punch-list/errors/business-rule");
                     assertThat(json).extractingPath("$.detail")
-                            .isEqualTo("Status CLOSED requires finishedBy and finishedAt");
+                            .isEqualTo("Status CLOSED requires finished by and finished at");
                 });
     }
 
     @Test
     void findById_notFound_returns404Problem() {
-        given(pendencyService.findById(7L)).willThrow(new ResourceNotFoundException("Pendency", 7L));
+        given(pendencyService.findById(7L)).willThrow(new ResourceNotFoundException("resource.pendency", 7L));
 
         assertThat(mvc.get().uri(URL + "/7"))
                 .hasStatus(HttpStatus.NOT_FOUND)

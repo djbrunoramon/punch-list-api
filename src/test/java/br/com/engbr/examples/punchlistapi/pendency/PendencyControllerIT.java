@@ -97,7 +97,7 @@ class PendencyControllerIT {
         assertThat(mvc.post().uri(URL).contentType(MediaType.APPLICATION_JSON).content(body("CLOSED", "")))
                 .hasStatus(HttpStatus.UNPROCESSABLE_CONTENT)
                 .bodyJson()
-                .extractingPath("$.detail").isEqualTo("Status CLOSED requires finishedBy and finishedAt");
+                .extractingPath("$.detail").isEqualTo("Status CLOSED requires finished by and finished at");
     }
 
     @Test

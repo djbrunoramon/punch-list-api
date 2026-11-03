@@ -154,7 +154,7 @@ Responses format dates as `yyyy-MM-dd'T'HH:mm` (for example `2026-03-15T14:30`).
 ### Errors
 
 Errors are `application/problem+json` (RFC 9457 `ProblemDetail`) with `type`, `title`, `status`, `detail` and
-`instance`. Validation errors also carry `errors: [{field, message}]`; the `message` text comes from Bean Validation and follows the JVM locale (for example, Portuguese on a pt-BR JVM), so the example below shows the English text. The `type` is one of
+`instance`. Validation errors also carry `errors: [{field, message}]`; the `message` text comes from Bean Validation in the request language (`Accept-Language`; the example below is English). The `type` is one of
 `https://punch-list/errors/{not-found|validation|business-rule|conflict|internal}`.
 
 400 (invalid body):
@@ -203,6 +203,12 @@ Every responsible person referenced by a pendency (`registeredBy`, `registeredTo
 `canceledBy`) must belong to the same contract as the pendency (`idContract`); otherwise the API answers 422. For the same
 reason the contract of an existing responsible person cannot be changed (`PUT` with another `idContract` answers 422).
 An unknown contract or responsible person answers 404.
+
+### Languages
+
+Responses are localized by `Accept-Language`: English (`en`, default) and Brazilian Portuguese (`pt-BR`). The
+`title`, `detail` and `errors[].message` of problem details are translated; `type`, `status` and `errors[].field`
+are not. The response carries `Content-Language`. See [docs/i18n.md](docs/i18n.md) for the message key standard.
 
 ## Swagger, OpenAPI and health
 

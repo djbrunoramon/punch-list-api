@@ -1,6 +1,7 @@
 package br.com.engbr.examples.punchlistapi.pendency;
 
 import br.com.engbr.examples.punchlistapi.shared.error.BusinessRuleException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 /**
  * Status-dependent business rules for a fully assembled pendency.
@@ -16,19 +17,24 @@ public final class PendencyStatusValidator {
     public static void validate(Pendency p) {
         switch (p.getStatus()) {
             case OPEN -> require(p, p.getRegisteredBy() != null && p.getRegisteredTo() != null,
-                    "registeredBy and registeredTo");
+                    "registeredBy", "registeredTo");
             case DISAPPROVED -> require(p, p.getDisapprovedBy() != null && p.getDisapprovedAt() != null,
-                    "disapprovedBy and disapprovedAt");
+                    "disapprovedBy", "disapprovedAt");
             case CANCELED -> require(p, p.getCanceledBy() != null && p.getCanceledAt() != null,
-                    "canceledBy and canceledAt");
+                    "canceledBy", "canceledAt");
             case CLOSED -> require(p, p.getFinishedBy() != null && p.getFinishedAt() != null,
-                    "finishedBy and finishedAt");
+                    "finishedBy", "finishedAt");
         }
     }
 
-    private static void require(Pendency p, boolean satisfied, String fields) {
+    /** Message {@code error.businessRule.pendencyStatusRequiredFields}: {0} status, {1} and {2} field names. */
+    static final String MESSAGE_CODE = "error.businessRule.pendencyStatusRequiredFields";
+
+    private static void require(Pendency p, boolean satisfied, String firstField, String secondField) {
         if (!satisfied) {
-            throw new BusinessRuleException("Status %s requires %s".formatted(p.getStatus(), fields));
+            throw new BusinessRuleException(MESSAGE_CODE, p.getStatus().name(),
+                    new DefaultMessageSourceResolvable("field." + firstField),
+                    new DefaultMessageSourceResolvable("field." + secondField));
         }
     }
 }

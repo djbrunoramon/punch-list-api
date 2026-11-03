@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ResponsiblePersonService {
 
-    static final String RESOURCE = "ResponsiblePerson";
+    static final String RESOURCE = "resource.responsiblePerson";
 
     private final ResponsiblePersonRepository responsiblePersonRepository;
     private final ContractService contractService;
@@ -46,7 +46,7 @@ public class ResponsiblePersonService {
         ResponsiblePerson person = getEntity(id);
         if (!person.getContract().getId().equals(request.idContract())) {
             // pendencies reference people of their own contract; moving a person would break that invariant
-            throw new BusinessRuleException("The contract of a responsible person cannot be changed");
+            throw new BusinessRuleException("error.businessRule.responsiblePersonContractImmutable");
         }
         ResponsiblePersonMapper.update(person, request, person.getContract());
         return ResponsiblePersonMapper.toResponse(person);

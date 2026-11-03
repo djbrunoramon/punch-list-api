@@ -95,10 +95,18 @@ Fluxo de um endpoint: `Request` (record com Bean Validation, `@Valid`) → `Mapp
 - `spring.data.web.pageable.serialization-mode=via-dto`: páginas saem como `{content, page: {size, number, totalElements, totalPages}}`. Não remova; o front depende desse formato.
 - CORS é configurado por env: `APP_CORS_ALLOWED_ORIGINS` (padrão `http://localhost:4200`), aplicado a `/api/**` com GET/POST/PUT/OPTIONS e `Location` exposto. Ao hospedar o front em outra origem, ajuste a variável.
 - Cada `Response` com data usa `@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")` em cada campo `LocalDateTime`; um novo campo de data na Response precisa da mesma anotação. A entrada aceita ISO local.
-- As mensagens de Bean Validation (`errors[].message`) saem no locale da JVM (ex.: pt-BR em JVM em português); não assuma texto fixo em inglês em testes ou no front, compare por `field`.
+- As mensagens (`title`, `detail`, `errors[].message`) dependem do `Accept-Language` (ver seção i18n); no front, use `type` e `errors[].field` para lógica, nunca o texto.
 - O `chart/bar/{status}` com status inválido responde 400 pelo tratamento padrão do Spring MVC.
 - Credenciais do `compose.yaml` e do H2 são de desenvolvimento. Não adicione segredos reais em arquivos versionados; use variáveis de ambiente (`SPRING_DATASOURCE_*`).
 - `target/` e `.idea/` não devem ser commitados.
+
+## i18n (en + pt-BR)
+
+- Padrão de chaves e guia: [docs/i18n.md](docs/i18n.md). Siga-o à risca.
+- Nunca escreva texto de resposta em Java. Exceções de domínio recebem **código de mensagem + argumentos** (`BusinessRuleException("error.businessRule.x", ...)`, `ResourceNotFoundException("resource.contract", id)`).
+- Toda chave nova vai em `messages.properties` **e** em `messages_pt_BR.properties` (o `MessagesParityTest` quebra se faltar).
+- O idioma vem só do `Accept-Language` (`LanguageLocaleResolver`); os testes rodam com a JVM em pt_BR para garantir isso. Em asserção de texto em inglês, não envie header; em português, envie `Accept-Language: pt-BR`.
+- Referência: `shared/i18n/`, `shared/web/ApiExceptionHandler.java`, `pendency/PendencyStatusValidator.java` (argumentos traduzidos com `DefaultMessageSourceResolvable`).
 
 ## Contrato com o front
 

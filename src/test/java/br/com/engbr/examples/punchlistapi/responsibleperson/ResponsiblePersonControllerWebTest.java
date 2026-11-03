@@ -44,7 +44,7 @@ class ResponsiblePersonControllerWebTest {
     @Test
     void findById_notFound_returnsProblemDetail() {
         given(responsiblePersonService.findById(7L))
-                .willThrow(new ResourceNotFoundException("ResponsiblePerson", 7L));
+                .willThrow(new ResourceNotFoundException("resource.responsiblePerson", 7L));
 
         assertThat(mvc.get().uri(URL + "/7"))
                 .hasStatus(HttpStatus.NOT_FOUND)
