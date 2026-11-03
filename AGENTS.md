@@ -2,6 +2,10 @@
 
 Instruções para agentes de código (Claude, Codex, Cursor, Copilot, Gemini etc.). Fonte única: `CLAUDE.md` apenas importa este arquivo.
 
+## Base de conhecimento
+
+- [docs/conhecimento](docs/conhecimento/index.md) (OKF v0.2): ADRs, spec viva por capacidade, débitos abertos, runbooks e glossário. Leia a spec da capacidade antes de mudar comportamento e atualize-a no mesmo PR; decisão nova vira ADR numerado.
+
 ## Visão geral
 
 API REST de registro de pendências (punch list) de contratos EPC. Backend do front Angular `punch-list-app` (repositório irmão em `../punch-list-app`).
@@ -102,7 +106,7 @@ Fluxo de um endpoint: `Request` (record com Bean Validation, `@Valid`) → `Mapp
 
 ## i18n (en + pt-BR)
 
-- Padrão de chaves e guia: [docs/i18n.md](docs/i18n.md). Siga-o à risca.
+- Padrão de chaves e guia: [docs/conhecimento/modulos/i18n.md](docs/conhecimento/modulos/i18n.md). Siga-o à risca.
 - Nunca escreva texto de resposta em Java. Exceções de domínio recebem **código de mensagem + argumentos** (`BusinessRuleException("error.businessRule.x", ...)`, `ResourceNotFoundException("resource.contract", id)`).
 - Toda chave nova vai em `messages.properties` **e** em `messages_pt_BR.properties` (o `MessagesParityTest` quebra se faltar).
 - O idioma vem só do `Accept-Language` (`LanguageLocaleResolver`); os testes rodam com a JVM em pt_BR para garantir isso. Em asserção de texto em inglês, não envie header; em português, envie `Accept-Language: pt-BR`.
