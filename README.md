@@ -208,7 +208,7 @@ An unknown contract or responsible person answers 404.
 
 Responses are localized by `Accept-Language`: English (`en`, default) and Brazilian Portuguese (`pt-BR`). The
 `title`, `detail` and `errors[].message` of problem details are translated; `type`, `status` and `errors[].field`
-are not. The response carries `Content-Language`. See [docs/i18n.md](docs/i18n.md) for the message key standard.
+are not. The response carries `Content-Language`. See [docs/conhecimento/modulos/i18n.md](docs/conhecimento/modulos/i18n.md) for the message key standard.
 
 ## Swagger, OpenAPI and health
 
@@ -231,6 +231,11 @@ Never edit a changeset that has already been applied: create a new file and incl
 The diagram reflects the data model (tables and relationships).
 
 ![class-diagram](https://github.com/djbrunoramon/punch-list-api/blob/main/docs/img/punchlist-api.drawio.svg "Class Diagram")
+
+## Knowledge base
+
+Architecture decisions (ADRs), living specification, open technical debt, runbooks and glossary live in
+[docs/conhecimento](docs/conhecimento/index.md) (Portuguese, [OKF](https://github.com/GoogleCloudPlatform/open-knowledge-format) format).
 
 ## Frontend
 
