@@ -68,7 +68,7 @@ class PendencyStatusValidatorTest {
         p.setRegisteredBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status OPEN requires registered by and registered to"));
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status Open requires registered by and registered to"));
     }
 
     @Test
@@ -84,7 +84,7 @@ class PendencyStatusValidatorTest {
         p.setFinishedBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status CLOSED requires finished by and finished at"));
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status Closed requires finished by and finished at"));
     }
 
     @Test
@@ -100,7 +100,7 @@ class PendencyStatusValidatorTest {
         p.setDisapprovedBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status DISAPPROVED requires disapproved by and disapproved at"));
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status Disapproved requires disapproved by and disapproved at"));
     }
 
     @Test
@@ -116,7 +116,7 @@ class PendencyStatusValidatorTest {
         p.setCanceledBy(null);
         assertThatThrownBy(() -> PendencyStatusValidator.validate(p))
                 .isInstanceOf(BusinessRuleException.class)
-                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status CANCELED requires canceled by and canceled at"));
+                .satisfies(ex -> assertThat(english(ex)).isEqualTo("Status Canceled requires canceled by and canceled at"));
     }
 
     @Test

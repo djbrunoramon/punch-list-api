@@ -27,12 +27,13 @@ public final class PendencyStatusValidator {
         }
     }
 
-    /** Message {@code error.businessRule.pendencyStatusRequiredFields}: {0} status, {1} and {2} field names. */
+    /** Message {@code error.businessRule.pendencyStatusRequiredFields}: {0} status label, {1} and {2} field names. */
     static final String MESSAGE_CODE = "error.businessRule.pendencyStatusRequiredFields";
 
     private static void require(Pendency p, boolean satisfied, String firstField, String secondField) {
         if (!satisfied) {
-            throw new BusinessRuleException(MESSAGE_CODE, p.getStatus().name(),
+            throw new BusinessRuleException(MESSAGE_CODE,
+                    new DefaultMessageSourceResolvable("enum.pendencyStatus." + p.getStatus().name()),
                     new DefaultMessageSourceResolvable("field." + firstField),
                     new DefaultMessageSourceResolvable("field." + secondField));
         }

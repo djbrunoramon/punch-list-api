@@ -88,7 +88,7 @@ class I18nIT {
                         """))
                 .hasStatus(HttpStatus.UNPROCESSABLE_CONTENT)
                 .bodyJson().extractingPath("$.detail")
-                .isEqualTo("O status CLOSED exige finalizado por e finalizado em");
+                .isEqualTo("A pendência na situação Concluída exige concluída por e concluída em");
     }
 
     @Test

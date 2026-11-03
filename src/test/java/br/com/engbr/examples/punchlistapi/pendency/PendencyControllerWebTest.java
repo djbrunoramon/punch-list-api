@@ -67,7 +67,8 @@ class PendencyControllerWebTest {
     @Test
     void create_businessRuleViolation_returns422() {
         given(pendencyService.create(any())).willThrow(
-                new BusinessRuleException("error.businessRule.pendencyStatusRequiredFields", "CLOSED",
+                new BusinessRuleException("error.businessRule.pendencyStatusRequiredFields",
+                        new DefaultMessageSourceResolvable("enum.pendencyStatus.CLOSED"),
                         new DefaultMessageSourceResolvable("field.finishedBy"),
                         new DefaultMessageSourceResolvable("field.finishedAt")));
 
@@ -78,7 +79,7 @@ class PendencyControllerWebTest {
                 .satisfies(json -> {
                     assertThat(json).extractingPath("$.type").isEqualTo("https://punch-list/errors/business-rule");
                     assertThat(json).extractingPath("$.detail")
-                            .isEqualTo("Status CLOSED requires finished by and finished at");
+                            .isEqualTo("Status Closed requires finished by and finished at");
                 });
     }
 
